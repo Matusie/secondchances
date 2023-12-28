@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: items-depl
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: items
+  template:
+    metadata:
+      labels:
+        app: items
+    spec:
+      containers:
+        - name: items
+          image: matusie/items
+          env: 
+            - name: NATS_CLUSTER_ID
+              value: secondchances
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: DB_URI
+              value: 'mongodb://items-mongo-srv:27017/items'
+            - name: jwt_key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: jwt_key
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: items-srv
+spec:
+  selector:
+    app: items
+  type: ClusterIP
+  ports:
+    - name: items
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

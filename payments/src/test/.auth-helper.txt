@@ -1,0 +1,23 @@
+import request from 'supertest';
+import { app } from '../app';
+import jwt from 'jsonwebtoken';
+
+
+export const AuthHelper =  () => {
+  // buidling JWT payload
+  const payload = {
+    email: 'pbs@pbs.com',
+    id: 'awdadwd'
+  };
+  // Creating the JWT
+  const token = jwt.sign(payload, process.env.jwt_key!);
+  //Build session Object {jwt: jwt}
+  const session = { jwt: token };
+  // Turn that session into JSON
+  const sessionJSON = JSON.stringify(session);
+  // take json and encode it as b64
+  const base64 = Buffer.from(sessionJSON).toString('base64');
+  ///return a strung thats the cookie with the encoded data
+  return [`session=${base64}`];
+
+};

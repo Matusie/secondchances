@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timer-depl
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: timer
+  template:
+    metadata:
+      labels:
+        app: timer
+    spec:
+      containers:
+        - name: timer
+          image: matusie/timer
+          env: 
+            - name: NATS_CLUSTER_ID
+              value: secondchances
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIS_HOST
+              value: timer-redis-srv

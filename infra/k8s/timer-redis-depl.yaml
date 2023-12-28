@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timer-redis-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timer-redis
+  template:
+    metadata:
+      labels:
+        app: timer-redis
+    spec:
+      containers:
+        - name: timer-redis
+          image: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timer-redis-srv
+spec:
+  selector:
+    app: timer-redis
+  type: ClusterIP
+  ports:
+    - name: db
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
