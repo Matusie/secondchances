@@ -1,7 +1,7 @@
-name: items-payments
- 
+name: tests-items
+
 on:
-  pull_request:
+  pull_request
 
 jobs:
   build:
