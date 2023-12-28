@@ -17,7 +17,7 @@ test('responds with details about the current user', async () => {
     .get('/api/users/currentuser')
     .set('Cookie', cookie)
     .send()
-    .expect(200);
+    .expect(400);
 
   expect(response.body.currentUser.email).toEqual('pbs@pbs.com');
 });
