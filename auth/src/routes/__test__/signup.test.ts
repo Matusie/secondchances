@@ -6,6 +6,9 @@ it('returns a 400 on failed signup', async () => {
     return request(app)
     .post('/api/users/signup')
     .send({
+        firstName:"John",
+        lastName:"Doe",
+        terms:true,
         email: 'okay@okay.com',
         password: '1'
     })
@@ -15,6 +18,9 @@ it('returns a 400 on failed signup', async () => {
 it("should throw an error if password length is less than 6", async () => {
     try {
       await new User({
+        firstName:"John",
+        lastName:"Doe",
+        terms:true,
         email: "sam@ed.info",
         password: "1"
       }).save()

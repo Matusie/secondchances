@@ -27,7 +27,8 @@ export class PurchaseCreatedListener extends Listener<PurchaseCreatedEvent>{
             price: item.price,
             title: item.title,
             userId: item.userId,
-            //purchaseId: item.purchaseId,
+            description: item.description ?? '',
+            avatar: item.avatar ?? '',
         });
         //ack
         msg.ack();

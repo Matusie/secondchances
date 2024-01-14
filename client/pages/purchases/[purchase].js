@@ -10,7 +10,7 @@ const purchaseShow = ({ purchase, currentUser }) => {
     body: {
       purchaseId: purchase.id,
     },//jezeli zakupione, popchniete do purchases
-    onSuccess: () => Router.push('/purchases')
+    onSuccess: () => Router.push('/items')
   });
 
   useEffect(() => {

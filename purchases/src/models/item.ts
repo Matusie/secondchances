@@ -5,11 +5,13 @@ interface ItemAttrs {
     id: string;
     title: string;
     price: number;
+    userId: string;
 }
 // exportujemy zeby mozna bylo dac referencje w modelu purchase
 export interface ItemDoc extends mongoose.Document {
     title: string;
     price: number;
+    userId: string;
     //version: number;
     isReserved(): Promise<boolean> //added state with promise of false or true
 }
@@ -28,6 +30,10 @@ const itemSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
+        required: true,
+    },
+    userId: {
+        type: String,
         required: true,
     },
 },{
@@ -50,6 +56,7 @@ itemSchema.statics.build =(attrs: ItemAttrs) => {
         _id: attrs.id,
         title: attrs.title,
         price: attrs.price,
+        userId: attrs.userId,
     });
 };
 // if we want to add method to the document tho, its done with keywoord function instead of an arrow function (because of values inside)

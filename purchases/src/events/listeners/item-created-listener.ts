@@ -12,11 +12,12 @@ export class ItemCreatedListener extends Listener<ItemCreatedEvent>{
 //message is an object coming from NATS that gives us a lot of info how data should be proccesed
 //in our case we need to look for ack():void; so we send info just once sucessfully
     async onMessage(data: ItemCreatedEvent['data'], msg: Message){
-        const { id, title, price, } = data;
+        const { id, title, price, userId } = data;
         const item = Item.build({
             id,
             title,
             price,
+            userId
         });
         await item.save();
         msg.ack();

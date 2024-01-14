@@ -9,9 +9,10 @@ import { showItemRouter } from './routes/show';
 import { indexItemRouter } from './routes/index';
 import { updateItemRouter} from './routes/update';
 import { showCreatedByItemRouter } from './routes/created';
+import { deleteItemRouter } from './routes/delete';
 const app = express();
 app.set('trust proxy', true);
-app.use(json());
+app.use(json({ limit: '250kb' }));
 app.use(cookieSession({
   signed: false,
   secure: true,
@@ -25,6 +26,7 @@ app.use(showItemRouter);
 app.use(indexItemRouter);
 app.use(showCreatedByItemRouter)
 app.use(updateItemRouter);
+app.use(deleteItemRouter);
 app.all('*', async (req, res) => {
   throw new NotFoundError();
 });

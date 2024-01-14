@@ -31,12 +31,12 @@ async (req: Request, res: Response) => {
     }
     if(purchase.status === PurchaseStatus.Cancelled){
         throw new BadRequestError('Dude, it seems like someone was faster :(');
-    }
+    }//nakladanie oplaty
     const charge = await stripe.charges.create({
         currency: 'pln',
         amount: purchase.price * 100,
         source: token,
-    });
+    });//tworzenie obiektu platnosci
     const payment = Payment.build({
         purchaseId,
         stripeId: charge.id,

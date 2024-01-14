@@ -25,7 +25,7 @@ router.post(
   //     throw new RequestValidationError(errors.array());
   //   }
 
-    const { email, password } = req.body;
+    const {firstName, lastName, terms, avatar, email, password } = req.body;
     const existingUser = await User.findOne({ email});
 
     if (existingUser) {
@@ -34,13 +34,16 @@ router.post(
       throw new BadRequestError('Email in use');
     }
 
-    const user = User.build({email, password });
+    const user = User.build({firstName, lastName, avatar, terms, email, password });
     await user.save();
 
 //Generate JWT
     const userJwt =jwt.sign({
       id: user.id,
-      email: user.email
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: user.avatar
     }, 
     process.env.jwt_key!
     );

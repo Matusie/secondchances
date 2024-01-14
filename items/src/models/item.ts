@@ -4,17 +4,20 @@ import mongoose from "mongoose";
 interface ItemAttrs {
     title: string;
     price: number;
- //   description: string;
+    description?: string;
+    avatar?: string;
     userId: string;
+    // purchaseId?: string;
     
 }
 
 interface ItemDoc extends mongoose.Document {
     title: string;
     price: number;
- //   description: string;
+    description?: string;
+    avatar?: string;
     userId: string;
-    purchaseId?: string; //purchase Id with ? sign to show it is optional
+    // purchaseId?: string; //purchase Id with ? sign to show it is optional
  //   version: number;
  
 }
@@ -33,19 +36,22 @@ const itemSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    // description: {
-    //     type: String,
-    //     required: true
-    // },
+    description: {
+        type: String||null,
+    },
     userId: {
         type: String,
         required: true,
-    }, //adding purchaseId that is not required, because before buying it, it doesn't have an ID
+    }, 
     purchaseId: {
         type: String,
-    }
+    },
+    avatar: {
+        type: String,
+    },
+    
 },   {
-    // deleteing that mongoose nonsense
+    //usuwanie __v i _id z odpowiedzi mongo
         toJSON: {
             transform(doc, ret) {
                 ret.id = ret._id;

@@ -17,20 +17,20 @@ router.post('/api/purchases', requireAuth, [
         .isEmpty()
         .withMessage('Prosze podac ID przedmiotu')
 ], validateRequest, async (req: Request, res: Response) => {
-    //finding if the item is still in database
+    //sprawdzenie czy przedmiot istnieje
 const {itemId} = req.body;
 const item = await Item.findById(itemId);
 if (!item){
     throw new NotFoundError();
-}
-const isReserved = await item.isReserved(); //making possible calling the isReserved method
+}//sprawdzenie czy przedmiot jest zarezerwowany
+const isReserved = await item.isReserved(); 
 if (isReserved) {
     throw new BadRequestError('Reserved item!');
 }
-    //expiration
+    //zdefiniowanie czasu wygasniecia
 const expiration = new Date();
 expiration.setSeconds(expiration.getSeconds()+1*60);
-    //building the purchase and save it to db IT CORESPONDS TO PURCHASEATTRS
+    //tworzenie zamowienia
 const purchase = Purchase.build({
     userId: req.currentUser!.id,
     status: PurchaseStatus.Created,
@@ -48,6 +48,7 @@ new PurchaseCreatedPublisher(natsWrapper.client).publish({
     item: {
         id: item.id,
         price: item.price,
+        userId: item.userId,
     }
 });
     await Item.findOneAndUpdate({id:item.id},{purchaseId:purchase.id})
