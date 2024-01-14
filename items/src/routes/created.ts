@@ -14,10 +14,10 @@ router.get('/api/itemsCreatedBy/:id',
 [
 //general request
 ],validateRequest,async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const items= await Item.find({userId: id})
     
-    const items= await Item.find({userId: req.currentUser!.id})
-    
-    res.send({createdBy:req.currentUser!.id,items:items.map(item=>({
+    res.send({createdBy:id,items:items.map(item=>({
         
         title:item.title,
         price:item.price,

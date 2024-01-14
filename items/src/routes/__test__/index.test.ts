@@ -28,5 +28,5 @@ const response = await request(app)
     .get('/api/items')
     .send()
     .expect(200);
-//console.log(response)
+console.log(response)
 })

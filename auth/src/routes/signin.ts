@@ -35,18 +35,18 @@ async (req: Request, res: Response) => {
   if (!passwordsMatch) {
     throw new BadRequestError('Invalid credentials');
   }
-  //Generate JWT
+  //Generowanie JWT
   const userJwt =jwt.sign({
     id: existingUser.id,
     email: existingUser.email
   }, 
   process.env.jwt_key!
   );
-// store it on the session
+// Przechowywanie JWT w sesji
   req.session = {
     jwt: userJwt
   };
-// sent back response, but 200 because we are not creating anything new
+// Zwrot odpowiedzi
   res.status(200).send(existingUser);
 }
 

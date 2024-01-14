@@ -8,6 +8,7 @@ import { deletePurchaseRouter } from './routes/delete';
 import { addPurchaseRouter } from './routes/add';
 import { showPurchaseRouter } from './routes/show';
 import { indexPurchaseRouter } from './routes/index';
+import { indexUserPurchaseRouter } from './routes/user-index';
 const app = express();
 app.set('trust proxy', true);
 app.use(json());
@@ -22,6 +23,7 @@ app.use(indexPurchaseRouter);
 app.use(showPurchaseRouter);
 app.use(addPurchaseRouter);
 app.use(deletePurchaseRouter );
+app.use(indexUserPurchaseRouter);
 app.all('*', async (req, res) => {
   throw new NotFoundError();
 });

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comments-depl
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: comments
+  template:
+    metadata:
+      labels:
+        app: comments
+    spec:
+      containers:
+        - name: comments
+          image: matusie/comments
+          env: 
+            - name: NATS_CLUSTER_ID
+              value: secondchances
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: DB_URI
+              value: 'mongodb://comments-mongo-srv:27017/comments'
+            - name: jwt_key
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: jwt_key
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comments-srv
+spec:
+  selector:
+    app: comments
+  type: ClusterIP
+  ports:
+    - name: comments
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

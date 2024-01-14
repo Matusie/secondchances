@@ -38,6 +38,13 @@ spec:
                 name: purchases-srv
                 port:
                   number: 3000
+          - path: /api/comments/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: comments-srv
+                port:
+                  number: 3000
           - path: /?(.*)
             pathType: ImplementationSpecific
             backend:

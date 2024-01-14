@@ -3,15 +3,15 @@ import axios from 'axios';
 
 export default ({ req }) => {
   if (typeof window === 'undefined') {
-    // We are on the server
-// using API to connect to our Kubernetescluster with help of nginx controller
+// pracujemy na serwerze
+// przy uzyciu ingress-nginx w k8s, musimy sie odwolac do serwisu, a nie do poda
     return axios.create({
       baseURL:
         'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
       headers: req.headers,
     });
   } else {
-    // We must be on the browser
+    // Praca na przegladarce
     return axios.create({
       baseUrl: '/',
     });

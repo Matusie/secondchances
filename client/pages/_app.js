@@ -2,17 +2,37 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import createClient from '../api/create-client.js';
 import Header from '../components/header';
+import '../components/listItem.scss'
+import { useState, useEffect } from 'react';
+import { Container } from 'react-bootstrap';
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
-  return (
-    <div>
-      <Header currentUser={currentUser} />
-      <div className='container'>
-      <Component currentUser={currentUser} {...pageProps} />
-    </div>
-    </div>
+  
+  
+    const [headerHeight, setHeaderHeight] = useState(0);
+
+    useEffect(() => {
+      const headerElement = document.querySelector('.navbar');
+      const height = headerElement.getBoundingClientRect().height;
+      setHeaderHeight(height);
+    }, []);
+
+    
+    return (
+      <div className='bg-body-secondary h-100 '>
+        <Header currentUser={currentUser} />
+        <div className='container h-100 ' style={{ "marginTop": `${headerHeight}px`}}>
+          <Component currentUser={currentUser} {...pageProps} />
+        </div>
+        <footer className='bg-dark text-light text-center py-3'>
+          <Container>
+            This is the footer.
+          </Container>
+        </footer>
+      </div>
   );
 };
+
 //getInitialProps function's goal is to fetch some data that is 
 // required to show the app component to the user.
 //fetching data about the current user

@@ -7,8 +7,6 @@ import { ItemUpdatedListener } from './events/listeners/item-updated-listener';
 import { TimerCompletedListener } from './events/listeners/timer-completed-listener';
 import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 const start = async () => {
-  console.log('Co za franca');
-  console.log('smieciu');
   if (!process.env.jwt_key) { //checking if you have cookie
     throw new Error('jwt_key must be defined');
   }

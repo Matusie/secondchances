@@ -1,7 +1,6 @@
 import { Publisher, Subjects, ItemUpdatedEvent } from '@secondchances/common';
-//extends generic class which we will try to emit with publisher
+//przedluza klase Publisher ktora jest w common
 export class ItemUpdatedPublisher extends Publisher<ItemUpdatedEvent>{
-    //quick metion that we are using Subject which is datastructure that we made in nats, and we can't change enum.
-    // this time for modifiying item
+    // nadpisujemy wlasciwosc subject ktorej wartoscia jest enum
     subject: Subjects.ItemUpdated = Subjects.ItemUpdated;
 }

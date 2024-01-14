@@ -1,6 +1,6 @@
 import nats, {Stan} from 'node-nats-streaming';
-//before connecting we actually want to chech maybe if we are already connected
-// so we can't use it before its already ready to use, to make that happen we introduce ts getter
+//przed polaczeniem z NATS, musimy miec klienta, ktory bedzie w stanie polaczyc sie z NATS
+// getter, ktory bedzie zwracal klienta jezeli jest polaczony wczesniej
 class NatsWrapper {
     get client(){
         if(!this._client){
@@ -8,18 +8,18 @@ class NatsWrapper {
         }
         return this._client;
     }
-    _client?: Stan; //? for the sake of TS
-    //very similar to mongoose, we will call the connection settings 
+    _client?: Stan; //STAN jest biblioteka do NATS odpowiedzialna za polaczenie
+    //polaczenie z NATS
     connect(clusterId: string, clientId: string, url: string){
         this._client = nats.connect(clusterId, clientId, {url});
-//taking callback and making it allow us to use async syntax with Promise, again resolve and reject
+
         return new Promise<void>((resolve, reject) => {
             this.client.on('connect', () => {
-              console.log('Connected to NATS');
+              console.log('Polaczono z NATS');
               resolve();
             });
             this.client.on('error',(error) => {
-//error saying what went wrong 
+//error 
 reject(error);
             });
     });

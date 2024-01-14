@@ -10,6 +10,7 @@ import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 import { indexUserRouter } from './routes/index';
 import { errorHandler } from '@secondchances/common';
+import { showUserRouter } from './routes/show';
 import { NotFoundError } from '@secondchances/common';
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 app.use(indexUserRouter);
+app.use(showUserRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

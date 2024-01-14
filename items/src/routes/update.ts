@@ -33,9 +33,9 @@ requireAuth, //adding check on the body of both
         throw new NotFoundError();
     }
     //checking if the item has an purchaseId, which means if it is already taken
-    if(item.purchaseId){
-        throw new BadRequestError("Taken");
-    }
+    // if(item.purchaseId){
+    //     throw new BadRequestError("Taken");
+    // }
     //so if there is not item like that, we throw an error of not found error
     if (item.userId !== req.currentUser!.id) {
         throw new NotAuthorizedError();
@@ -43,6 +43,8 @@ requireAuth, //adding check on the body of both
     item.set({ //changes to the item
         title: req.body.title,
         price: req.body.price,
+        description: req.body.description,
+        avatar: req.body.avatar,
     }); //to apply update, we can use set command
    await item.save(); //actually saves the data in database
     new ItemUpdatedPublisher(natsWrapper.client).publish({ //after makiing an update, we emmit an event to nats
@@ -50,6 +52,8 @@ requireAuth, //adding check on the body of both
         //version: item.version,
         title: item.title,
         price: item.price,
+        description: item.description ?? '',
+        avatar: item.avatar ?? '',
         userId: item.userId,
     });
     res.send(item);

@@ -25,17 +25,20 @@ export default () => {
     <form onSubmit={onSubmit}>
       <h1>Sign In</h1>
       <div className="form-group">
-        <label>Email Address</label>
+        <label htmlFor='EmailInput'>Email Address</label>
         <input
           value={email}
+          name='Email address'
+          id='EmailInput'
           onChange={e => setEmail(e.target.value)}
           className="form-control"
         />
       </div>
       <div className="form-group">
-        <label>Password</label>
+        <label htmlFor="password">Password</label>
         <input
           value={password}
+          id="password"
           onChange={e => setPassword(e.target.value)}
           type="password"
           className="form-control"
